@@ -61,16 +61,6 @@ docker-compose logs -f gateway
 
 ## 🔧 Desenvolvimento Local
 
-### Configurar ambiente local
-
-
-Acessar:
-- Gateway: http://localhost:8000
-- Usuarios: http://localhost:3001
-- Parques: http://localhost:3002
-- Eventos: http://localhost:3003
-
-
 ### Segurança
 - ✅ Helmet — headers HTTP seguros
 - ✅ CORS — controle de origem
@@ -81,11 +71,8 @@ Acessar:
 
 ## 🔍 Swagger/OpenAPI
 
-Cada microsserviço possui documentação Swagger:
-
-- Usuarios: http://localhost:3001/api-docs
-- Parques: http://localhost:3002/api-docs
-- Eventos: http://localhost:3003/api-docs
+Possui um swagger geral para todos os microserviços
+http://localhost:8000/api-docs/#/
 
 ## 📦 Scripts Úteis
 
@@ -99,10 +86,6 @@ docker-compose down -v
 
 # Reconstruir tudo
 docker-compose up -d --build
-
-# Executar comando no container
-docker-compose exec usuarios-service npm test
-```
 
 
 ### Conexão recusada ao BD
