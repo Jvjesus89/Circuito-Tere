@@ -1,0 +1,25 @@
+{
+  "name": "circuito-tere-gateway",
+  "version": "1.0.0",
+  "description": "API Gateway para rotear requisições aos microserviços",
+  "main": "gateway.js",
+  "type": "module",
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon gateway.js",
+    "start": "node gateway.js",
+    "lint": "echo \"No linter configured\""
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "express-http-proxy": "^2.1.2",
+    "helmet": "^7.1.0",
+    "http-proxy": "^1.18.1",
+    "morgan": "^1.10.0",
+    "swagger-ui-express": "^4.6.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

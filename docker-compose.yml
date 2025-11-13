@@ -1,0 +1,137 @@
+version: "3.9"
+services:
+  # Banco de dados PostgreSQL compartilhado
+  db:
+    image: postgres:15
+    container_name: circuito-tere-db
+    environment:
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+      POSTGRES_DB: ${PGDATABASE:-circuito_tere}
+    ports:
+      - "${PGPORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGUSER:-postgres} -d ${PGDATABASE:-circuito_tere}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - circuito-network
+
+  # Microserviço de Usuários
+  usuarios-service:
+    build: ./services/usuarios-service
+    container_name: usuarios-service
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      PGHOST: db
+      PGPORT: 5432
+      PGDATABASE: ${PGDATABASE:-circuito_tere}
+      PGUSER: ${PGUSER:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      CORS_ORIGINS: "http://localhost:8000,http://localhost:5173"
+    ports:
+      - "3001:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - circuito-network
+
+  # Microserviço de Parques e Trilhas
+  parques-service:
+    build: ./services/parques-service
+    container_name: parques-service
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      PGHOST: db
+      PGPORT: 5432
+      PGDATABASE: ${PGDATABASE:-circuito_tere}
+      PGUSER: ${PGUSER:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      CORS_ORIGINS: "http://localhost:8000,http://localhost:5173"
+    ports:
+      - "3002:3002"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - circuito-network
+
+  # Microserviço de Eventos
+  eventos-service:
+    build: ./services/eventos-service
+    container_name: eventos-service
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+      PGHOST: db
+      PGPORT: 5432
+      PGDATABASE: ${PGDATABASE:-circuito_tere}
+      PGUSER: ${PGUSER:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      CORS_ORIGINS: "http://localhost:8000,http://localhost:5173"
+    ports:
+      - "3003:3003"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - circuito-network
+
+  # Microserviço de Avaliação
+  avaliacao-service:
+    build: ./services/avaliacao-service
+    container_name: avaliacao-service
+    environment:
+      NODE_ENV: production
+      PORT: 3004
+      PGHOST: db
+      PGPORT: 5432
+      PGDATABASE: ${PGDATABASE:-circuito_tere}
+      PGUSER: ${PGUSER:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      CORS_ORIGINS: "http://localhost:8000,http://localhost:5173"
+    ports:
+      - "3004:3004"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - circuito-network
+
+  # Gateway API
+  gateway:
+    build: ./gateway
+    container_name: circuito-gateway
+    environment:
+      NODE_ENV: production
+      PORT: 8000
+      USUARIOS_SERVICE_URL: http://usuarios-service:3001
+      PARQUES_SERVICE_URL: http://parques-service:3002
+      EVENTOS_SERVICE_URL: http://eventos-service:3003
+      AVALIACAO_SERVICE_URL: http://avaliacao-service:3004
+      CORS_ORIGINS: "http://localhost:5173"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - usuarios-service
+      - parques-service
+      - eventos-service
+      - avaliacao-service
+    networks:
+      - circuito-network
+
+volumes:
+  db_data:
+
+networks:
+  circuito-network:
+    driver: bridge
+
+
