@@ -1,0 +1,139 @@
+.banner {
+  background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0) 50%
+    ),
+    url("../assets/montanhas.jpg");
+  height: 600px;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 50px 300px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+h1,
+h2,
+h3,
+p {
+  font-family: sans-serif;
+  color: #ffffff;
+}
+
+section,
+h2 {
+  margin: 50px 60px;
+}
+
+.banner h1 {
+  font-size: 40px;
+}
+
+.parque {
+  height: 400px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.parque a {
+  width: 30%;
+}
+
+.parque a:hover .card_parque {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.card_parque {
+  background-color: var(--green);
+  width: 250100%px;
+  height: 350px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  align-items: end;
+  background-size: cover;
+  transition: transform 0.3s ease;
+}
+
+.card_1 {
+  background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.1) 70%
+    ),
+    url("../assets/parque-nacional-da-serra-dos-orgaos.jpg");
+}
+.card_2 {
+  background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.1) 70%
+    ),
+    url("../assets/Parque-Estadual-Tres-Picos-em-Teresopolis.jpg");
+}
+.card_3 {
+  background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.1) 70%
+    ),
+    url("../assets/Pedra_da_Tartaruga\,_Nova_Friburgo.jpg");
+}
+
+.bio {
+  display: flex;
+  align-items: center;
+}
+
+.images {
+  display: flex;
+  width: 50%;
+  justify-content: space-evenly;
+}
+
+.images div {
+  background-size: cover;
+  flex: 1;
+  margin: 0 10px;
+  height: 200px;
+}
+
+.img-1 {
+  background-image: url("../assets/cachoeira.jpg");
+}
+
+.img-2 {
+  background-image: url("../assets/tucano.jpg");
+}
+
+.img-3 {
+  background-image: url("../assets/orquidia.jpg");
+}
+
+.info {
+  margin: 30px;
+  width: 50%;
+}
+
+h2 {
+  text-align: center;
+  font-size: 40px;
+}
+
+h3 {
+  font-size: 25px;
+  margin: 15px 0;
+}
+
+p {
+  font-size: 18px;
+  padding-bottom: 50px;
+  line-height: 1.5;
+}
