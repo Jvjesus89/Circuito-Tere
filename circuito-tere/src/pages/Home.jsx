@@ -2,6 +2,7 @@ import "../index.css";
 import "../App.css";
 import "./home.css";
 import Menu from "../components/Menu";
+import Footer from "../components/Footer";
 
 function Home() {
   return (
@@ -14,7 +15,7 @@ function Home() {
         <h3>v</h3>
       </div>
 
-      <h2>Explore Nossos Santuários Naturais</h2>
+      <h2 id="parques">Explore Nossos Santuários Naturais</h2>
       <section className="parque">
         <a>
           <div className="card_parque card_1">
@@ -33,7 +34,7 @@ function Home() {
         </a>
       </section>
 
-      <h2>Biodiversidade e Ecoturismo no Circuito Terê</h2>
+      <h2 id="biodiversidade">Biodiversidade e Ecoturismo no Circuito Terê</h2>
       <section className="bio">
         <div className="info">
           <h3>Tesouro Natural e Aventura Sustentável</h3>
@@ -54,6 +55,8 @@ function Home() {
           <div className="img-3"></div>
         </div>
       </section>
+
+      <Footer />
     </>
   );
 }
