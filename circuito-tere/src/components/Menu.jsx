@@ -1,14 +1,18 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import "./Menu.css";
 
 function Menu() {
   return (
     <>
       <header>
-        <div className="logo">Circuito Terê</div>
+        <div className="logo">
+          <Link to="/">Circuito Terê</Link>
+        </div>
         <nav className="main-nav">
           <ul>
             <li>
-              <a>Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
               <a href="#parques">Parques</a>
@@ -17,7 +21,7 @@ function Menu() {
               <a href="#biodiversidade">Biodiversidade</a>
             </li>
             <li>
-              <a>Eventos</a>
+              <Link to="/eventos">Eventos</Link>
             </li>
             <li>
               <a href="#contato">Contato</a>

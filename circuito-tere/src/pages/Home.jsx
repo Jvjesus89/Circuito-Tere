@@ -1,14 +1,10 @@
 import "../index.css";
 import "../App.css";
 import "./home.css";
-import Menu from "../components/Menu";
-import Footer from "../components/Footer";
 
 function Home() {
   return (
     <>
-      <Menu />
-
       <div className="banner">
         <h1> CIRCUITO TERÊ: ONDE A MONTANHA ENCONTRA A ALMA</h1>
         <h3>Descubra paisagens deslumbrantes...</h3>
@@ -55,8 +51,6 @@ function Home() {
           <div className="img-3"></div>
         </div>
       </section>
-
-      <Footer />
     </>
   );
 }
