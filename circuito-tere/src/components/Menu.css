@@ -28,7 +28,8 @@ header {
   cursor: pointer;
 }
 
-li a {
+li a,
+.logo a {
   text-decoration: none;
   color: #393d40;
 }
