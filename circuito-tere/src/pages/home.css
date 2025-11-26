@@ -136,3 +136,13 @@ p {
   padding-bottom: 50px;
   line-height: 1.5;
 }
+
+.parque a {
+  text-decoration: none; 
+  color: inherit;        
+}
+
+
+.parque a:hover {
+  cursor: pointer;
+}

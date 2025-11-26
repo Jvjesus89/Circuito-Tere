@@ -1,3 +1,5 @@
+import React from 'react'; 
+import { Link } from 'react-router-dom';
 import "../index.css";
 import "../App.css";
 import "./home.css";
@@ -13,21 +15,28 @@ function Home() {
 
       <h2 id="parques">Explore Nossos Santuários Naturais</h2>
       <section className="parque">
-        <a>
+        
+        {/* CARD 1 - PARNASO */}
+        <Link to="/parque/parnaso">
           <div className="card_parque card_1">
             <h3>PARQUE NACIONAL DA SERRA DOS ÓRGÃOS (PARNASO)</h3>
           </div>
-        </a>
-        <a>
+        </Link>
+
+        {/* CARD 2 - TRÊS PICOS */}
+        <Link to="/parque/tres-picos">
           <div className="card_parque card_2">
             <h3>PARQUE ESTADUAL DOS TRÊS PICOS (PETP)</h3>
           </div>
-        </a>
-        <a>
+        </Link>
+
+        {/* CARD 3 - MONTANHAS MUNICIPAL */}
+        <Link to="/parque/montanhas">
           <div className="card_parque card_3">
             <h3>PARQUE MUNICIPAL MONTANHAS DE TERE</h3>
           </div>
-        </a>
+        </Link>
+
       </section>
 
       <h2 id="biodiversidade">Biodiversidade e Ecoturismo no Circuito Terê</h2>
