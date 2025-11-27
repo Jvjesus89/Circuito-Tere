@@ -33,18 +33,18 @@ export async function getUsuarioById(req, res, next) {
 
 export async function createUsuario(req, res, next) {
 	try {
-		const { idusuario, usuario, senha, isadministrador = false, email, telefone = null, cpf = null } = req.body || {};
+		const { usuario, senha, isadministrador = false, email, telefone = null, cpf = null } = req.body || {};
 
-		if (idusuario == null || usuario == null || senha == null || email == null) {
-			return res.status(400).json({ message: 'Campos obrigatórios: idusuario, usuario, senha, email' });
+		if (usuario == null || senha == null || email == null) {
+			return res.status(400).json({ message: 'Campos obrigatórios: usuario, senha, email' });
 		}
 
 		const query = `
-			INSERT INTO public.usuarios (idusuario, usuario, senha, isadministrador, email, telefone, cpf)
-			VALUES ($1, $2, $3, $4, $5, $6, $7)
+			INSERT INTO public.usuarios (usuario, senha, isadministrador, email, telefone, cpf)
+			VALUES ($1, $2, $3, $4, $5, $6)
 			RETURNING idusuario, usuario, isadministrador, email, telefone, cpf
 		`;
-		const values = [Number(idusuario), usuario, senha, Boolean(isadministrador), email, telefone, cpf];
+		const values = [usuario, senha, Boolean(isadministrador), email, telefone, cpf];
 		const result = await pool.query(query, values);
 		res.status(201).json(result.rows[0]);
 	} catch (err) {

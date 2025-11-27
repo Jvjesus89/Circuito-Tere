@@ -34,6 +34,7 @@ const USUARIOS_SERVICE_URL = process.env.USUARIOS_SERVICE_URL || 'http://localho
 const PARQUES_SERVICE_URL = process.env.PARQUES_SERVICE_URL || 'http://localhost:3002';
 const EVENTOS_SERVICE_URL = process.env.EVENTOS_SERVICE_URL || 'http://localhost:3003';
 const AVALIACAO_SERVICE_URL = process.env.AVALIACAO_SERVICE_URL || 'http://localhost:3004';
+const AI_AGENT_SERVICE_URL = process.env.AI_AGENT_SERVICE_URL || 'http://localhost:3005';
 
 // Health check
 app.get('/health', (_req, res) => {
@@ -63,6 +64,18 @@ app.use('/api/eventos', proxy(EVENTOS_SERVICE_URL, {
 
 app.use('/api/avaliacao', proxy(AVALIACAO_SERVICE_URL, {
 	proxyReqPathResolver: (req) => '/api/avaliacao' + (req.url === '/' ? '' : req.url)
+}));
+
+app.use('/api/chat', proxy(AI_AGENT_SERVICE_URL, {
+	proxyReqPathResolver: (req) => '/api/chat' + (req.url === '/' ? '' : req.url)
+}));
+
+app.use('/api/tools', proxy(AI_AGENT_SERVICE_URL, {
+	proxyReqPathResolver: (req) => '/api/tools' + (req.url === '/' ? '' : req.url)
+}));
+
+app.use('/api/tool/execute', proxy(AI_AGENT_SERVICE_URL, {
+	proxyReqPathResolver: (req) => '/api/tool/execute' + (req.url === '/' ? '' : req.url)
 }));
 
 const swaggerOptions = {
@@ -159,4 +172,5 @@ app.listen(port, () => {
 	console.log(`  - Parques Service: ${PARQUES_SERVICE_URL}`);
 	console.log(`  - Eventos Service: ${EVENTOS_SERVICE_URL}`);
 	console.log(`  - Avaliacao Service: ${AVALIACAO_SERVICE_URL}`);
+	console.log(`  - AI Agent Service: ${AI_AGENT_SERVICE_URL}`);
 });

@@ -105,6 +105,30 @@ services:
     networks:
       - circuito-network
 
+  # Serviço de IA com Model Context Protocol (MCP)
+  ai-agent-service:
+    build: ./services/ai-agent-service
+    container_name: ai-agent-service
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      USUARIOS_SERVICE_URL: http://usuarios-service:3001/api/usuarios
+      PARQUES_SERVICE_URL: http://parques-service:3002/api/parques
+      TRILHAS_SERVICE_URL: http://parques-service:3002/api/trilhas
+      EVENTOS_SERVICE_URL: http://eventos-service:3003/api/eventos
+      AVALIACAO_SERVICE_URL: http://avaliacao-service:3004/api/avaliacao
+      CORS_ORIGINS: "http://localhost:5173,http://localhost:8000"
+    ports:
+      - "3005:3005"
+    depends_on:
+      - usuarios-service
+      - parques-service
+      - eventos-service
+      - avaliacao-service
+    networks:
+      - circuito-network
+
   # Gateway API
   gateway:
     build: ./gateway
@@ -116,6 +140,7 @@ services:
       PARQUES_SERVICE_URL: http://parques-service:3002
       EVENTOS_SERVICE_URL: http://eventos-service:3003
       AVALIACAO_SERVICE_URL: http://avaliacao-service:3004
+      AI_AGENT_SERVICE_URL: http://ai-agent-service:3005
       CORS_ORIGINS: "http://localhost:5173"
     ports:
       - "8000:8000"
@@ -124,6 +149,7 @@ services:
       - parques-service
       - eventos-service
       - avaliacao-service
+      - ai-agent-service
     networks:
       - circuito-network
 

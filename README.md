@@ -14,7 +14,23 @@ Ponto de entrada único que roteia para todos os microsserviços:
 - `/api/trilhas/*` → parques-service
 - `/api/eventos/*` → eventos-service
 - `/api/avalicao/*` → avaliacao-service
+- `/api/chat` → ai-agent-service (MCP)
+- `/api/tools` → ai-agent-service (MCP)
 - `GET /health` — status dos serviços
+
+### 🤖 AI Agent Service (Porta 3005) - Model Context Protocol (MCP)
+Serviço inteligente com Gemini que acessa dados via MCP:
+- **POST** `/api/chat` — Faz perguntas em linguagem natural
+- **GET** `/api/tools` — Lista ferramentas MCP disponíveis
+- **POST** `/api/tool/execute` — Executa ferramenta específica
+- **GET** `/health` — Status do serviço
+
+**10 Ferramentas MCP disponíveis:**
+- `list_usuarios`, `get_usuario`
+- `list_parques`, `get_parque`
+- `list_trilhas`, `get_trilha`
+- `list_eventos`, `get_evento`
+- `list_avaliacoes`, `get_avaliacao`
 
 ## 🐳 Docker & Docker Compose
 
@@ -30,7 +46,10 @@ PGUSER=postgres
 PGPASSWORD=postgres
 PGDATABASE=circuito_tere
 PGPORT=5432
+GOOGLE_API_KEY=your_google_gemini_api_key_here
 ```
+
+**Obtenha sua chave Gemini em:** https://aistudio.google.com/app/apikeys
 
 2. **Iniciar todos os serviços:**
 ```bash
@@ -73,6 +92,33 @@ docker-compose logs -f gateway
 
 Possui um swagger geral para todos os microserviços
 http://localhost:8000/api-docs/#/
+
+## 🤖 Model Context Protocol (MCP)
+
+O Circuito Terê agora possui um serviço de IA que usa **MCP** para acessar dados dos microserviços.
+
+### Como usar
+
+```bash
+# Fazer pergunta ao Gemini (pode chamar ferramentas automaticamente)
+curl -X POST http://localhost:8000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Quais parques temos?"}'
+
+# Listar ferramentas disponíveis
+curl http://localhost:8000/api/tools
+
+# Executar ferramenta diretamente (para testes)
+curl -X POST http://localhost:8000/api/tool/execute \
+  -H "Content-Type: application/json" \
+  -d '{"tool": "list_parques", "input": {}}'
+```
+
+### Documentação MCP
+
+- 📖 Guia completo: `services/ai-agent-service/MCP-INTEGRATION.md`
+- 📋 Sumário: `MCP-IMPLEMENTATION-SUMMARY.md`
+- 🧪 Testes: `services/ai-agent-service/test-mcp.js`
 
 ## 📦 Scripts Úteis
 

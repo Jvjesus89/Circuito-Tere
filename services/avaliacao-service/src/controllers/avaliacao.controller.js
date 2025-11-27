@@ -33,20 +33,28 @@ export async function getAvaliacao(req, res) {
 }
 
 export async function createAvaliacao(req, res) {
-	const { idavaliacao, idusuario, avaliacao, estrelas } = req.body;
+	const { idusuario, avaliacao, estrelas } = req.body;
+	
+	if (!idusuario || !estrelas) {
+		return res.status(400).json({ message: 'Campos obrigatórios: idusuario, estrelas' });
+	}
+	
 	try {
 		const client = await pool.connect();
 		try {
-			await client.query(
-				'INSERT INTO avaliacao(idavaliacao, idusuario, avaliacao, estrelas) VALUES($1,$2,$3,$4)',
-				[idavaliacao, idusuario, avaliacao, estrelas]
+			const result = await client.query(
+				'INSERT INTO avaliacao(idusuario, avaliacao, estrelas) VALUES($1,$2,$3) RETURNING idavaliacao, idusuario, avaliacao, estrelas',
+				[idusuario, avaliacao, estrelas]
 			);
-			res.status(201).json({ message: 'Created' });
+			res.status(201).json(result.rows[0]);
 		} finally {
 			client.release();
 		}
 	} catch (err) {
 		console.error(err);
+		if (err?.code === '23503') {
+			return res.status(409).json({ message: 'Chave estrangeira inválida (idusuario)' });
+		}
 		res.status(500).json({ message: 'Error creating avaliacao' });
 	}
 }

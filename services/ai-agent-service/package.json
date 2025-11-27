@@ -1,0 +1,24 @@
+{
+  "name": "ai-agent-service",
+  "version": "1.0.0",
+  "description": "Serviço de IA com Model Context Protocol (MCP) para Circuito Terê",
+  "type": "module",
+  "main": "src/agent.js",
+  "scripts": {
+    "start": "node src/agent.js",
+    "dev": "nodemon src/agent.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "latest", 
+    "@langchain/google-genai": "latest", 
+    "@langchain/core": "latest",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": ["ai", "agent", "mcp", "model-context-protocol", "gemini"]
+}

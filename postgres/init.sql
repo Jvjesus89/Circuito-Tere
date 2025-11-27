@@ -1,14 +1,14 @@
 -- 1. Tabela 'imagens'
 -- Deve ser criada primeiro, pois outras tabelas dependem de 'idimagem'.
 CREATE TABLE imagens (
-    idimagem INT PRIMARY KEY,
+    idimagem SERIAL PRIMARY KEY,
     imagem VARCHAR(255) NOT NULL,
     homeimagem VARCHAR(255)
 );
 
 -- 2. Tabela 'trilhas'
 CREATE TABLE trilhas (
-    idtrilha INT PRIMARY KEY,
+    idtrilha SERIAL PRIMARY KEY,
     trilha VARCHAR(100) NOT NULL,
     observacao TEXT,
     idimagem INT,
@@ -17,7 +17,7 @@ CREATE TABLE trilhas (
 
 -- 3. Tabela 'parques'
 CREATE TABLE parques (
-    idparque INT PRIMARY KEY,
+    idparque SERIAL PRIMARY KEY,
     parque VARCHAR(100) NOT NULL,
     horarioinicio TIME,
     horariofim TIME,
@@ -30,7 +30,7 @@ CREATE TABLE parques (
 
 -- 4. Tabela 'usuarios'
 CREATE TABLE usuarios (
-    idusuario INT PRIMARY KEY,
+    idusuario SERIAL PRIMARY KEY,
     usuario VARCHAR(50) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL, -- O tamanho 255 é para armazenar o hash da senha
     isadministrador BOOLEAN DEFAULT FALSE,
@@ -42,7 +42,7 @@ CREATE TABLE usuarios (
 -- 5. Tabela 'eventos'
 -- Depende de 'idimagem'. Note que o campo 'idimagem' está como INT (não null) no seu diagrama.
 CREATE TABLE eventos (
-    idevento INT PRIMARY KEY,
+    idevento SERIAL PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
     descricao TEXT,
     datainicio DATE NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE eventos (
 -- 6. Tabela 'avaliacao'
 -- Depende de 'idusuario'.
 CREATE TABLE avaliacao (
-    idavaliacao INT PRIMARY KEY,
+    idavaliacao SERIAL PRIMARY KEY,
     idusuario INT,
     avaliacao VARCHAR(255),
     estrelas INT CHECK (estrelas >= 1 AND estrelas <= 5), -- Garante que as estrelas sejam entre 1 e 5

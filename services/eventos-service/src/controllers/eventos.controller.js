@@ -40,7 +40,6 @@ export async function getEventoById(req, res, next) {
 export async function createEvento(req, res, next) {
 	try {
 		const {
-			idevento,
 			titulo,
 			descricao = null,
 			datainicio,
@@ -50,17 +49,16 @@ export async function createEvento(req, res, next) {
 			idimagem = null
 		} = req.body || {};
 
-		if (idevento == null || titulo == null || datainicio == null) {
-			return res.status(400).json({ message: 'Campos obrigatórios: idevento, titulo, datainicio' });
+		if (titulo == null || datainicio == null) {
+			return res.status(400).json({ message: 'Campos obrigatórios: titulo, datainicio' });
 		}
 
 		const query = `
-			INSERT INTO public.eventos (idevento, titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+			INSERT INTO public.eventos (titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem)
+			VALUES ($1, $2, $3, $4, $5, $6, $7)
 			RETURNING idevento, titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem
 		`;
 		const values = [
-			Number(idevento),
 			titulo,
 			toNullable(descricao),
 			datainicio,

@@ -40,23 +40,21 @@ export async function getTrilhaById(req, res, next) {
 export async function createTrilha(req, res, next) {
 	try {
 		const {
-			idtrilha,
 			trilha,
 			observacao = null,
 			idimagem = null
 		} = req.body || {};
 
-		if (idtrilha == null || trilha == null) {
-			return res.status(400).json({ message: 'Campos obrigatórios: idtrilha, trilha' });
+		if (trilha == null) {
+			return res.status(400).json({ message: 'Campos obrigatórios: trilha' });
 		}
 
 		const query = `
-			INSERT INTO public.trilhas (idtrilha, trilha, observacao, idimagem)
-			VALUES ($1, $2, $3, $4)
+			INSERT INTO public.trilhas (trilha, observacao, idimagem)
+			VALUES ($1, $2, $3)
 			RETURNING idtrilha, trilha, observacao, idimagem
 		`;
 		const values = [
-			Number(idtrilha),
 			trilha,
 			toNullable(observacao),
 			parseNullableInt(idimagem)
