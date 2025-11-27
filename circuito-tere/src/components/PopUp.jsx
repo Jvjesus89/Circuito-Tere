@@ -1,26 +1,38 @@
+import { useState } from "react";
 import LoginForm from "./LoginForm";
+import SignUpForm from "./SignUpForm";
 import "./popUp.css";
 
 function PopUp({ close }) {
+  const [activeTab, setActiveTab] = useState("login");
   return (
     <>
-      <section className="overlay">
-        <section id="popUp">
-          <button className="close-btn" onClick={close}>
-            x
+      {/* <section className="overlay"> */}
+      <section id="popUp">
+        <button className="close-btn" onClick={close}>
+          x
+        </button>
+        <div className="logo">
+          <h3>Circuito Terê</h3>
+        </div>
+        <div className="topbar">
+          <button
+            className={activeTab === "login" ? "selected" : ""}
+            onClick={() => setActiveTab("login")}
+          >
+            LOGIN
           </button>
-          <div className="logo">
-            <h3>Circuito Terê</h3>
-          </div>
-          <div className="topbar">
-            <a href="" className="selected">
-              LOGIN
-            </a>
-            <a href="">CADASTRO</a>
-          </div>
-          <LoginForm />
-        </section>
+
+          <button
+            className={activeTab === "signup" ? "selected" : ""}
+            onClick={() => setActiveTab("signup")}
+          >
+            CADASTRO
+          </button>
+        </div>
+        {activeTab === "login" ? <LoginForm /> : <SignUpForm />}
       </section>
+      {/* </section> */}
     </>
   );
 }

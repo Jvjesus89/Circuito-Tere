@@ -2,7 +2,7 @@ function LoginForm() {
   return (
     <>
       <form id="loginForm">
-        <input type="text" placeholder="Insira seu email:" />
+        <input type="email" placeholder="Insira seu email:" />
         <input
           type="password"
           name="senha"
