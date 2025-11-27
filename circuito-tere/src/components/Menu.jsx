@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import PopUp from "./PopUp";
 import "./Menu.css";
 
 function Menu() {
+  const [showPopUp, setShowPopUp] = useState(false);
   return (
     <>
       <header>
@@ -27,11 +29,15 @@ function Menu() {
               <a href="#contato">Contato</a>
             </li>
             <li className="login">
-              <a>Login/Cadastro</a>
+              <a role="button" onClick={() => setShowPopUp(true)}>
+                Login/Cadastro
+              </a>
             </li>
           </ul>
         </nav>
       </header>
+
+      {showPopUp && <PopUp close={() => setShowPopUp(false)} />}
     </>
   );
 }

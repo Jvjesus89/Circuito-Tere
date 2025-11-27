@@ -10,6 +10,7 @@ function Events() {
       <section id="eventos">
         <div className="filter">
           <select name="opcao">
+            <option value="todos 1">Todos os parques</option>
             <option value="Parque 1">Parque 1</option>
             <option value="Parque 2">Parque 2</option>
             <option value="Parque 3">Parque 3</option>
