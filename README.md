@@ -10,17 +10,11 @@ Este repositório tem o objetivo de facilitar a colaboração entre os integrant
 ## Situação problema:
 Circuito Terê Verde
 
-## Descrição resumida das tecnologias utilizadas:
-...
-
 ## Tipo de MVP:
 Protótipo
 
-## Instruções para executar/abrir o MVP:
-...
-
 ## MVP definido:
- - Será realizado os requisitos com prioridade ...
+ - Será realizado os requisitos com prioridade alta.
 
 ## Objetivos e benefícios do produto:
  - Oferecer asssistência, facilidade, praticidade e segurança, ao disponibilizar um site com informações claras sobre os parques da cidade.
