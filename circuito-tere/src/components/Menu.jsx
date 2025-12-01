@@ -8,7 +8,7 @@ function Menu() {
   return (
     <>
       <header>
-        <div className="logo">
+        <div className="logo menu">
           <Link to="/">Circuito Terê</Link>
         </div>
         <nav className="main-nav">
@@ -17,10 +17,10 @@ function Menu() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <a href="#parques">Parques</a>
+              <Link to="/#parques">Parques</Link>
             </li>
             <li>
-              <a href="#biodiversidade">Biodiversidade</a>
+              <Link to="/#biodiversidade">Biodiversidade</Link>
             </li>
             <li>
               <Link to="/eventos">Eventos</Link>
@@ -28,11 +28,11 @@ function Menu() {
             <li>
               <a href="#contato">Contato</a>
             </li>
-            <li className="login">
+            {/* <li className="login">
               <a role="button" onClick={() => setShowPopUp(true)}>
                 Login/Cadastro
               </a>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </header>

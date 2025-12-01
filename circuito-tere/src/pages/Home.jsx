@@ -1,21 +1,37 @@
-import React from 'react'; 
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import "../index.css";
 import "../App.css";
 import "./home.css";
 
 function Home() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const section = document.getElementById(id);
+
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
   return (
     <>
       <div className="banner">
         <h1> CIRCUITO TERÊ: ONDE A MONTANHA ENCONTRA A ALMA</h1>
         <h3>Descubra paisagens deslumbrantes...</h3>
-        <h3>v</h3>
+        <Link to="/#parques" style={{ textDecoration: "none" }}>
+          <h3>v</h3>
+        </Link>
       </div>
 
       <h2 id="parques">Explore Nossos Santuários Naturais</h2>
       <section className="parque">
-        
         {/* CARD 1 - PARNASO */}
         <Link to="/parque/parnaso">
           <div className="card_parque card_1">
@@ -36,7 +52,6 @@ function Home() {
             <h3>PARQUE MUNICIPAL MONTANHAS DE TERE</h3>
           </div>
         </Link>
-
       </section>
 
       <h2 id="biodiversidade">Biodiversidade e Ecoturismo no Circuito Terê</h2>
