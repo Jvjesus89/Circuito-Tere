@@ -9,55 +9,30 @@ function Events() {
   const [filtroParque, setFiltroParque] = useState("");
   const [filtroData, setFiltroData] = useState("");
 
-  // useEffect(() => {
-  //   fetch("http://localhost:8000/api/parques")
-  //     .then((res) => res.json())
-  //     .then((data) => setParques(data))
-  //     .catch((err) => console.error("Erro ao buscar parques:", err));
-
-  //   fetch("http://localhost:8000/api/eventos")
-  //     .then((res) => res.json())
-  //     .then((data) => setEventos(data))
-  //     .catch((err) => console.error("Erro ao buscar eventos:", err));
-  // }, []);
-
   useEffect(() => {
-    // --- DADOS MOCKADOS PARA TESTAR ---
-    setParques([
-      { idparque: 1, parque: "Parque Nacional da Serra dos Órgãos" },
-      { idparque: 2, parque: "Parque do Vale Encantado" },
-    ]);
+    fetch("http://localhost:8000/api/parques")
+      .then((res) => res.json())
+      .then((data) => setParques(data))
+      .catch((err) => console.error("Erro ao buscar parques:", err));
 
-    setEventos([
-      {
-        idevento: 1,
-        titulo: "Caminhada Riacho Doce",
-        descricao: "Evento de teste para validar o layout.",
-        datainicio: "2025-05-10",
-        datafim: "2025-05-10",
-        horarioinicio: "08:00",
-        horariofim: "12:00",
-        idimagem: null,
-        idparque: 1,
-      },
-      {
-        idevento: 2,
-        titulo: "Trilha Pedra da Tartaruga",
-        descricao: "Outro evento de teste.",
-        datainicio: "2025-06-01",
-        datafim: "2025-06-01",
-        horarioinicio: "09:00",
-        horariofim: "15:00",
-        idimagem: null,
-        idparque: 2,
-      },
-    ]);
+    fetch("http://localhost:8000/api/eventos")
+      .then((res) => res.json())
+      .then((data) => setEventos(data))
+      .catch((err) => console.error("Erro ao buscar eventos:", err));
   }, []);
 
   const formatarData = (dataString) => {
     if (!dataString) return "";
-    const [ano, mes, dia] = dataString.split("-");
+
+    const dataSemHora = dataString.split("T")[0];
+
+    const [ano, mes, dia] = dataSemHora.split("-");
     return `${dia}/${mes}/${ano}`;
+  };
+
+  const normalizarData = (dataString) => {
+    if (!dataString) return "";
+    return dataString.split("T")[0];
   };
 
   const getImagemUrl = (id) => {
@@ -69,7 +44,8 @@ function Events() {
     const passaParque =
       filtroParque === "" || evento.idparque === Number(filtroParque);
 
-    const passaData = filtroData === "" || evento.datainicio === filtroData;
+    const passaData =
+      filtroData === "" || normalizarData(evento.datainicio) === filtroData;
 
     return passaParque && passaData;
   });

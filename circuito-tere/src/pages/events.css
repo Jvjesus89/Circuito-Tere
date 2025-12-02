@@ -60,7 +60,7 @@
 }
 
 #eventos .event-info {
-  width: 50%;
+  min-width: 50%;
   margin-left: 30px;
 }
 
