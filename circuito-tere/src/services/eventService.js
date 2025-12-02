@@ -1,21 +1,21 @@
+import { apiFetch } from './api';
+
 export async function criarEvento(evento) {
-    try {
-        const response = await fetch("http://localhost:8000/api/eventos/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(evento)
-        });
+    return apiFetch('/api/eventos/', {
+        method: 'POST',
+        body: JSON.stringify(evento),
+    });
+}
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("RESPOSTA DA API:", errorText);
-            throw new Error("Erro ao criar evento");
-        }
+export async function atualizarEvento(id, evento) {
+    return apiFetch(`/api/eventos/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(evento),
+    });
+}
 
-        return await response.json();
-
-    } catch (erro) {
-        console.error("API ERRO:", erro);
-        throw erro;
-    }
+export async function deletarEvento(id) {
+    return apiFetch(`/api/eventos/${id}`, {
+        method: 'DELETE',
+    });
 }

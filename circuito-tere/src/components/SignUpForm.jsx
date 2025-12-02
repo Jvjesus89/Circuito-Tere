@@ -1,27 +1,45 @@
 import { useState } from "react";
+import { criarUsuario } from "../services/userService";
 
 function SignUpForm() {
+  const [usuario, setUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmSenha, setConfirmSenha] = useState("");
   const [erro, setErro] = useState("");
+  const [sucesso, setSucesso] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (senha !== confirmSenha) {
       setErro("As senhas não coincidem.");
+      setSucesso("");
       return;
     }
 
-    setErro("");
-
-    console.log("Cadastro válido!");
-    console.log({ email, senha });
+    try {
+      setErro("");
+      setSucesso("");
+      await criarUsuario({ usuario, email, senha });
+      setSucesso("Cadastro realizado com sucesso!");
+      // Opcional: limpar campos
+      // setUsuario(""); setEmail(""); setSenha(""); setConfirmSenha("");
+    } catch (err) {
+      setErro(err.message || "Erro ao cadastrar usuário.");
+    }
   };
 
   return (
     <form id="loginForm" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Nome de usuário"
+        value={usuario}
+        onChange={(e) => setUsuario(e.target.value)}
+        required
+      />
+
       <input
         type="email"
         placeholder="Insira seu email"
@@ -47,6 +65,7 @@ function SignUpForm() {
       />
 
       {erro && <p className="erro">{erro}</p>}
+      {sucesso && <p className="sucesso">{sucesso}</p>}
 
       <button type="submit">CADASTRAR</button>
     </form>

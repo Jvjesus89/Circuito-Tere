@@ -5,6 +5,28 @@ import "./Menu.css";
 
 function Menu() {
   const [showPopUp, setShowPopUp] = useState(false);
+  const [usuarioLogado, setUsuarioLogado] = useState(() => {
+    try {
+      const saved = localStorage.getItem("usuario");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const handleLoginSuccess = (usuario) => {
+    setUsuarioLogado(usuario);
+    setShowPopUp(false);
+  };
+
+  const handleLogout = () => {
+    setUsuarioLogado(null);
+    try {
+      localStorage.removeItem("usuario");
+    } catch {
+      // ignore
+    }
+  };
   return (
     <>
       <header>
@@ -28,16 +50,43 @@ function Menu() {
             <li>
               <a href="#contato">Contato</a>
             </li>
-            {/* <li className="login">
-              <a role="button" onClick={() => setShowPopUp(true)}>
-                Login/Cadastro
-              </a>
-            </li> */}
+            {usuarioLogado ? (
+              <li className="login">
+                <span>{`Olá, ${usuarioLogado.usuario}`}</span>
+                <a
+                  role="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleLogout();
+                  }}
+                  style={{ marginLeft: "8px" }}
+                >
+                  Sair
+                </a>
+              </li>
+            ) : (
+              <li className="login">
+                <a
+                  role="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowPopUp(true);
+                  }}
+                >
+                  Login/Cadastro
+                </a>
+              </li>
+            )}
           </ul>
         </nav>
       </header>
 
-      {showPopUp && <PopUp close={() => setShowPopUp(false)} />}
+      {showPopUp && (
+        <PopUp
+          close={() => setShowPopUp(false)}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      )}
     </>
   );
 }

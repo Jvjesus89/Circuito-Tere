@@ -3,8 +3,17 @@ import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import "./popUp.css";
 
-function PopUp({ close }) {
+function PopUp({ close, onLoginSuccess }) {
   const [activeTab, setActiveTab] = useState("login");
+
+  const handleLoginSuccess = (usuario) => {
+    if (onLoginSuccess) {
+      onLoginSuccess(usuario);
+    }
+    // garante que o modal fecha após login bem-sucedido
+    close();
+  };
+
   return (
     <>
       {/* <section className="overlay"> */}
@@ -30,7 +39,11 @@ function PopUp({ close }) {
             CADASTRO
           </button>
         </div>
-        {activeTab === "login" ? <LoginForm /> : <SignUpForm />}
+        {activeTab === "login" ? (
+          <LoginForm onLoginSuccess={handleLoginSuccess} />
+        ) : (
+          <SignUpForm />
+        )}
       </section>
       {/* </section> */}
     </>

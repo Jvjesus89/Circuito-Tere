@@ -40,6 +40,13 @@ function Events() {
     return `http://localhost:8000/api/imagens/${id}`;
   };
 
+  // Apenas parques que possuem pelo menos um evento
+  const parquesComEventos = parques.filter((parque) =>
+    eventos.some(
+      (evento) => Number(evento.idparque) === Number(parque.idparque)
+    )
+  );
+
   const eventosFiltrados = eventos.filter((evento) => {
     const passaParque =
       filtroParque === "" || evento.idparque === Number(filtroParque);
@@ -63,7 +70,7 @@ function Events() {
             onChange={(e) => setFiltroParque(e.target.value)}
           >
             <option value="">Todos os parques</option>
-            {parques.map((parque) => (
+            {parquesComEventos.map((parque) => (
               <option key={parque.idparque} value={parque.idparque}>
                 {parque.parque}
               </option>
@@ -78,18 +85,25 @@ function Events() {
         </div>
 
         <div className="cards-eventos">
-          {eventosFiltrados.map((evento) => (
-            <EventCard
-              key={evento.idevento}
-              titulo={evento.titulo}
-              descricao={evento.descricao}
-              datainicio={formatarData(evento.datainicio)}
-              datafim={formatarData(evento.datafim)}
-              horarioinicio={evento.horarioinicio}
-              horariofim={evento.horariofim}
-              imagem={getImagemUrl(evento.idimagem)}
-            />
-          ))}
+          {eventosFiltrados.map((evento) => {
+            const parqueEvento = parques.find(
+              (p) => Number(p.idparque) === Number(evento.idparque)
+            );
+
+            return (
+              <EventCard
+                key={evento.idevento}
+                titulo={evento.titulo}
+                descricao={evento.descricao}
+                datainicio={formatarData(evento.datainicio)}
+                datafim={formatarData(evento.datafim)}
+                horarioinicio={evento.horarioinicio}
+                horariofim={evento.horariofim}
+                imagem={getImagemUrl(evento.idimagem)}
+                parque={parqueEvento?.parque}
+              />
+            );
+          })}
         </div>
       </section>
     </>

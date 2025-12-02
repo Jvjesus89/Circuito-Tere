@@ -6,12 +6,14 @@ function EventCard({
   horarioinicio,
   horariofim,
   imagem,
+  parque,
 }) {
   return (
     <div className="event-card-detail">
       <div className="event-info">
         <h4>{titulo}</h4>
         <p>{descricao}</p>
+        {parque && <p>📍 Parque: {parque}</p>}
 
         <p>
           📅 Início: {datainicio} <br />

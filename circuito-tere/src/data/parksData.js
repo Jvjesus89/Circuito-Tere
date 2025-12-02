@@ -7,6 +7,7 @@ import imgTucano from '../assets/tucano.jpg';
 
 export const parksData = {
   "parnaso": {
+    idparque: 1,
     name: "Parque Nacional Serra dos Órgãos",
     image: imgParnaso,
     // DESCRIÇÃO/BIODIVERSIDADE/ECOTURISMO
@@ -28,6 +29,7 @@ export const parksData = {
     ]
   },
   "tres-picos": {
+    idparque: 2,
     name: "Parque Estadual dos Três Picos",
     image: imgTresPicos,
     // DESCRIÇÃO/BIODIVERSIDADE/ECOTURISMO
@@ -47,6 +49,7 @@ export const parksData = {
     ]
   },
   "montanhas": {
+    idparque: 3,
     name: "Parque Municipal Montanhas de Teresópolis",
     image: imgMontanhas,
     // DESCRIÇÃO/BIODIVERSIDADE/ECOTURISMO
