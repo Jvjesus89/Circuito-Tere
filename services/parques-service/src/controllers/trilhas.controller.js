@@ -1,7 +1,7 @@
 import { pool } from '../config/db.js';
 
 const baseSelect = `
-	SELECT idtrilha, trilha, observacao, idimagem
+	SELECT idtrilha, trilha, observacao, idimagem, idparque
 	FROM public.trilhas
 `;
 
@@ -42,7 +42,8 @@ export async function createTrilha(req, res, next) {
 		const {
 			trilha,
 			observacao = null,
-			idimagem = null
+			idimagem = null,
+			idparque = null
 		} = req.body || {};
 
 		if (trilha == null) {
@@ -50,20 +51,21 @@ export async function createTrilha(req, res, next) {
 		}
 
 		const query = `
-			INSERT INTO public.trilhas (trilha, observacao, idimagem)
-			VALUES ($1, $2, $3)
-			RETURNING idtrilha, trilha, observacao, idimagem
+			INSERT INTO public.trilhas (trilha, observacao, idimagem, idparque)
+			VALUES ($1, $2, $3, $4)
+			RETURNING idtrilha, trilha, observacao, idimagem, idparque
 		`;
 		const values = [
 			trilha,
 			toNullable(observacao),
-			parseNullableInt(idimagem)
+			parseNullableInt(idimagem),
+			parseNullableInt(idparque)
 		];
 		const result = await pool.query(query, values);
 		res.status(201).json(result.rows[0]);
 	} catch (err) {
 		if (err?.code === '23503') {
-			return res.status(409).json({ message: 'Chave estrangeira inválida (idimagem)' });
+			return res.status(409).json({ message: 'Chave estrangeira inválida (idimagem ou idparque)' });
 		}
 		if (err?.code === '23505') {
 			return res.status(409).json({ message: 'Trilha com id já existente' });
@@ -78,7 +80,8 @@ export async function updateTrilha(req, res, next) {
 		const {
 			trilha,
 			observacao,
-			idimagem
+			idimagem,
+			idparque
 		} = req.body || {};
 
 		const fields = [];
@@ -88,6 +91,7 @@ export async function updateTrilha(req, res, next) {
 		if (trilha !== undefined) { fields.push(`trilha = $${idx++}`); values.push(trilha); }
 		if (observacao !== undefined) { fields.push(`observacao = $${idx++}`); values.push(toNullable(observacao)); }
 		if (idimagem !== undefined) { fields.push(`idimagem = $${idx++}`); values.push(parseNullableInt(idimagem)); }
+		if (idparque !== undefined) { fields.push(`idparque = $${idx++}`); values.push(parseNullableInt(idparque)); }
 
 		if (fields.length === 0) {
 			return res.status(400).json({ message: 'Nenhum campo para atualizar' });
@@ -97,7 +101,7 @@ export async function updateTrilha(req, res, next) {
 			UPDATE public.trilhas
 			SET ${fields.join(', ')}
 			WHERE idtrilha = $${idx}
-			RETURNING idtrilha, trilha, observacao, idimagem
+			RETURNING idtrilha, trilha, observacao, idimagem, idparque
 		`;
 		values.push(Number(id));
 		const result = await pool.query(query, values);
@@ -107,7 +111,7 @@ export async function updateTrilha(req, res, next) {
 		res.json(result.rows[0]);
 	} catch (err) {
 		if (err?.code === '23503') {
-			return res.status(409).json({ message: 'Chave estrangeira inválida (idimagem)' });
+			return res.status(409).json({ message: 'Chave estrangeira inválida (idimagem ou idparque)' });
 		}
 		if (err?.code === '23505') {
 			return res.status(409).json({ message: 'Trilha com dados conflitantes' });

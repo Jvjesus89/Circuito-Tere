@@ -41,6 +41,9 @@ const router = Router();
  *         idimagem:
  *           type: integer
  *           nullable: true
+ *         idparque:
+ *           type: integer
+ *           nullable: true
  */
 
 /**

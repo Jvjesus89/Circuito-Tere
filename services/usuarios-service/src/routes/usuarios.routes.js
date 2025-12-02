@@ -1,5 +1,12 @@
 import { Router } from 'express';
-import { createUsuario, deleteUsuario, getUsuarioById, listUsuarios, updateUsuario } from '../controllers/usuarios.controller.js';
+import {
+  createUsuario,
+  deleteUsuario,
+  getUsuarioById,
+  listUsuarios,
+  updateUsuario,
+  loginUsuario,
+} from '../controllers/usuarios.controller.js';
 
 const router = Router();
 
@@ -99,6 +106,34 @@ router.get('/:id', getUsuarioById);
  *         description: Conflito de unicidade
  */
 router.post('/', createUsuario);
+
+/**
+ * @openapi
+ * /api/usuarios/login:
+ *   post:
+ *     tags: [Usuarios]
+ *     summary: Realiza login de um usuario com email e senha
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               senha:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login realizado com sucesso
+ *       400:
+ *         description: Requisição inválida
+ *       401:
+ *         description: Credenciais inválidas
+ */
+router.post('/login', loginUsuario);
 
 /**
  * @openapi

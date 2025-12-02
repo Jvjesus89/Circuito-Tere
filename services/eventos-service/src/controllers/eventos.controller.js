@@ -1,7 +1,7 @@
 import { pool } from '../config/db.js';
 
 const baseSelect = `
-	SELECT idevento, titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem
+	SELECT idevento, titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem, idparque
 	FROM public.eventos
 `;
 
@@ -46,7 +46,8 @@ export async function createEvento(req, res, next) {
 			datafim = null,
 			horarioinicio = null,
 			horariofim = null,
-			idimagem = null
+			idimagem = null,
+			idparque = null
 		} = req.body || {};
 
 		if (titulo == null || datainicio == null) {
@@ -54,9 +55,9 @@ export async function createEvento(req, res, next) {
 		}
 
 		const query = `
-			INSERT INTO public.eventos (titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem)
-			VALUES ($1, $2, $3, $4, $5, $6, $7)
-			RETURNING idevento, titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem
+			INSERT INTO public.eventos (titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem, idparque)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+			RETURNING idevento, titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem, idparque
 		`;
 		const values = [
 			titulo,
@@ -65,13 +66,14 @@ export async function createEvento(req, res, next) {
 			toNullable(datafim),
 			toNullable(horarioinicio),
 			toNullable(horariofim),
-			parseNullableInt(idimagem)
+			parseNullableInt(idimagem),
+			parseNullableInt(idparque)
 		];
 		const result = await pool.query(query, values);
 		res.status(201).json(result.rows[0]);
 	} catch (err) {
 		if (err?.code === '23503') {
-			return res.status(409).json({ message: 'Chave estrangeira inválida (idimagem)' });
+			return res.status(409).json({ message: 'Chave estrangeira inválida (idimagem/idparque)' });
 		}
 		if (err?.code === '23505') {
 			return res.status(409).json({ message: 'Evento com id já existente' });
@@ -90,7 +92,8 @@ export async function updateEvento(req, res, next) {
 			datafim,
 			horarioinicio,
 			horariofim,
-			idimagem
+			idimagem,
+			idparque
 		} = req.body || {};
 
 		const fields = [];
@@ -104,6 +107,7 @@ export async function updateEvento(req, res, next) {
 		if (horarioinicio !== undefined) { fields.push(`horarioinicio = $${idx++}`); values.push(toNullable(horarioinicio)); }
 		if (horariofim !== undefined) { fields.push(`horariofim = $${idx++}`); values.push(toNullable(horariofim)); }
 		if (idimagem !== undefined) { fields.push(`idimagem = $${idx++}`); values.push(parseNullableInt(idimagem)); }
+		if (idparque !== undefined) { fields.push(`idparque = $${idx++}`); values.push(parseNullableInt(idparque)); }
 
 		if (fields.length === 0) {
 			return res.status(400).json({ message: 'Nenhum campo para atualizar' });
@@ -113,7 +117,7 @@ export async function updateEvento(req, res, next) {
 			UPDATE public.eventos
 			SET ${fields.join(', ')}
 			WHERE idevento = $${idx}
-			RETURNING idevento, titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem
+			RETURNING idevento, titulo, descricao, datainicio, datafim, horarioinicio, horariofim, idimagem, idparque
 		`;
 		values.push(Number(id));
 		const result = await pool.query(query, values);
